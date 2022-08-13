@@ -1,4 +1,4 @@
-package abdulrahman.ali19.intrazero.data.model
+package abdulrahman.ali19.intrazero.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,8 +7,6 @@ import androidx.room.PrimaryKey
 data class Page(
     @PrimaryKey val id: Int,
     val author: String,
-    val width: Int,
-    val height: Int,
-    val url: String,
+    val pageUrl: String,
     val imageUrl: String
 )

@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -32,6 +34,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
@@ -68,13 +74,18 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
 
     //Retrofit
-    implementation 'com.google.code.gson:gson:2.9.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-
-
 
     //Ad mop
     implementation 'com.google.android.gms:play-services-ads:21.1.0'
 
+    //Dagger hilt
+    implementation 'com.google.dagger:hilt-android:2.43.2'
+    kapt 'com.google.dagger:hilt-compiler:2.43.2'
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
 }

@@ -1,6 +1,6 @@
-package abdulrahman.ali19.intrazero.data.db
+package abdulrahman.ali19.intrazero.data.local
 
-import abdulrahman.ali19.intrazero.data.model.Page
+import abdulrahman.ali19.intrazero.domain.model.Page
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room

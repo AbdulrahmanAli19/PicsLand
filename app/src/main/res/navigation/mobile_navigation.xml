@@ -7,7 +7,7 @@
     app:startDestination="@id/navigation_home">
     <fragment
         android:id="@+id/navigation_home"
-        android:name="abdulrahman.ali19.intrazero.presentation.ui.home.HomeFragment"
+        android:name="abdulrahman.ali19.intrazero.presentation.ui.home.view.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 </navigation>

@@ -1,6 +1,6 @@
-package abdulrahman.ali19.intrazero.data.db.dao
+package abdulrahman.ali19.intrazero.data.local.dao
 
-import abdulrahman.ali19.intrazero.data.model.Page
+import abdulrahman.ali19.intrazero.domain.model.Page
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

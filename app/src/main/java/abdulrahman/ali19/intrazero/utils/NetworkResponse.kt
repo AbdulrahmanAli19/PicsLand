@@ -5,9 +5,9 @@ sealed class NetworkResponse<out R> {
     data class FailureResponse(val errorString: String) : NetworkResponse<Nothing>()
 }
 
-sealed class ResultState<out R> {
-    object Loading : ResultState<Nothing>()
-    object EmptyResult : ResultState<Nothing>()
-    data class Error(val errorString: String) : ResultState<Nothing>()
-    data class Success<T>(val data: T) : ResultState<T>()
+sealed class NetworkResult<out R> {
+    object Loading : NetworkResult<Nothing>()
+    object EmptyResult : NetworkResult<Nothing>()
+    data class Error(val errorString: String) : NetworkResult<Nothing>()
+    data class Success<T>(val data: T) : NetworkResult<T>()
 }

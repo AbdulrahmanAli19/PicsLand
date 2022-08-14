@@ -20,9 +20,17 @@ class GetPagesUseCase @Inject constructor(
 
         when (val pages = repo.getPagesWithPageAndLimit(pageNo = pageNo, limit = limit)) {
             is NetworkResponse.SuccessResponse -> {
-                if (pages.data.isNotEmpty())
-                    emit(NetworkResult.Success(pages.data.map { it.toPage() }))
-                else
+                if (pages.data.isNotEmpty()) {
+                    val list = pages.data.map { it.toPage() } as ArrayList
+                    var newSize = 0
+                    for (i in 0..list.size step 5) {
+                        if (i != 0) {
+                            list.add(i + newSize, Page(isAd = true))
+                            newSize++
+                        }
+                    }
+                    emit(NetworkResult.Success(list.toList()))
+                } else
                     emit(NetworkResult.EmptyResult)
             }
             is NetworkResponse.FailureResponse -> {

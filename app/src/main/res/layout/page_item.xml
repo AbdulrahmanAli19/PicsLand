@@ -48,8 +48,23 @@
                     app:layout_constraintStart_toEndOf="@id/page_image"
                     app:layout_constraintTop_toTopOf="@+id/page_image"
                     app:layout_constraintVertical_bias="0.506" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <com.google.android.gms.ads.AdView
+                    android:id="@+id/ad_view"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="10dp"
+                    app:adSize="BANNER"
+                    app:adUnitId="ca-app-pub-2329065040858979/8491263061"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
     </FrameLayout>
 </layout>

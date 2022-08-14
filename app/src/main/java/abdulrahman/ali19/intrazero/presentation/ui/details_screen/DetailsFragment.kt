@@ -2,11 +2,9 @@ package abdulrahman.ali19.intrazero.presentation.ui.details_screen
 
 import abdulrahman.ali19.intrazero.R
 import abdulrahman.ali19.intrazero.databinding.FragmentDetailsBinding
-import abdulrahman.ali19.intrazero.utils.setGlideImage
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup

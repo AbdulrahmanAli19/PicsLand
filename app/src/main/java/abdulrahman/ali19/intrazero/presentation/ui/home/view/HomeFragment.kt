@@ -68,12 +68,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun onItemClick(): (Page) -> (Unit) = {
-        findNavController().navigate(
-            HomeFragmentDirections.actionNavigationHomeToDetailsFragment(
-                authorName = it.author,
-                imageUrl = it.imageUrl
+        if (!it.isAd)
+            findNavController().navigate(
+                HomeFragmentDirections.actionNavigationHomeToDetailsFragment(
+                    authorName = it.author,
+                    imageUrl = it.imageUrl
+                )
             )
-        )
     }
 
     override fun onDestroyView() {

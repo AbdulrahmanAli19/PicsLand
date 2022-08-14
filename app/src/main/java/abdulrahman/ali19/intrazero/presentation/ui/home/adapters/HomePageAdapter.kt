@@ -4,6 +4,7 @@ import abdulrahman.ali19.intrazero.databinding.PageItemBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
@@ -32,8 +33,16 @@ class HomePageAdapter(
         }
 
         fun bind() {
-            binding.page = page
+            if (!page.isAd) {
+                binding.page = page
+                binding.adView.visibility = View.GONE
+                binding.pageImage.visibility = View.VISIBLE
+            } else {
+                binding.adView.visibility = View.VISIBLE
+                binding.pageImage.visibility = View.GONE
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

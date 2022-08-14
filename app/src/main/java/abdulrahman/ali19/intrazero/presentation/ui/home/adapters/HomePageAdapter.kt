@@ -11,11 +11,11 @@ class HomePageAdapter(
     private val onItemClick: (Page) -> (Unit)
 ) : RecyclerView.Adapter<HomePageAdapter.HomePageViewHolder>() {
 
-    private var pages: List<Page> = emptyList()
+    private var pages: ArrayList<Page> = arrayListOf()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(newList: List<Page>) {
-        pages = newList
+        pages = newList as ArrayList
         notifyDataSetChanged()
     }
 

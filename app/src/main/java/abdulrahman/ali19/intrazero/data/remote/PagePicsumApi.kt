@@ -9,11 +9,8 @@ import retrofit2.http.Query
 interface PagePicsumApi {
 
     @GET("list")
-    suspend fun getAllPages(): Response<List<PageDto>>
-
-    @GET("list")
     suspend fun getPagesWithPageAndLimit(
         @Query("limit") limit: String = "10",
         @Query("page") pageNo: String = "1"
-    ): Response<List<PageDto>>
+    ): List<PageDto>
 }

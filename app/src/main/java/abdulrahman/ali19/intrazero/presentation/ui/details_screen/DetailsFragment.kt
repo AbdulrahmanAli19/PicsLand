@@ -2,6 +2,7 @@ package abdulrahman.ali19.intrazero.presentation.ui.details_screen
 
 import abdulrahman.ali19.intrazero.R
 import abdulrahman.ali19.intrazero.databinding.FragmentDetailsBinding
+import abdulrahman.ali19.intrazero.utils.setGlideImg
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
@@ -20,11 +20,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-private const val TAG = "DetailsFragment"
-
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
 
     private var _binding: FragmentDetailsBinding? = null
@@ -40,38 +37,17 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Glide
-            .with(this)
-            .load(args.imageUrl)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean = false
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    Palette.from(resource!!.toBitmap()).generate {
-                        val dominantColor =
-                            it?.getDominantColor(
-                                ContextCompat.getColor(context!!, R.color.white)
-                            )!!
-                        binding.parent.background = ColorDrawable(dominantColor)
-                    }
-                    return false
+        binding.mainImage.setGlideImg(args.imageUrl,
+            onFailed = {},
+            onSuccess = { resource ->
+                Palette.from(resource!!.toBitmap()).generate {
+                    val dominantColor =
+                        it?.getDominantColor(
+                            ContextCompat.getColor(requireContext(), R.color.white)
+                        )!!
+                    binding.parent.background = ColorDrawable(dominantColor)
                 }
-
             })
-            .centerCrop()
-            .into(binding.mainImage)
-
 
     }
 

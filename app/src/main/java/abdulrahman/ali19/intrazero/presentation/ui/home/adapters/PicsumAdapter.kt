@@ -2,38 +2,25 @@ package abdulrahman.ali19.intrazero.presentation.ui.home.adapters
 
 import abdulrahman.ali19.intrazero.databinding.PageItemBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-class HomePageAdapter(
+class PicsumAdapter(
     private val onItemClick: (Page) -> (Unit)
-) : RecyclerView.Adapter<HomePageAdapter.HomePageViewHolder>() {
+) : PagingDataAdapter<Page, PicsumAdapter.PicsumViewHolder>(PAGE_DIFF_CALLBACK) {
 
-    private var pages: ArrayList<Page> = arrayListOf()
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setList(newList: List<Page>) {
-        pages = newList as ArrayList
-        notifyDataSetChanged()
-    }
-
-    inner class HomePageViewHolder(private val binding: PageItemBinding) :
+    inner class PicsumViewHolder(private val binding: PageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val page: Page
-            get() = pages[bindingAdapterPosition]
-
-        init {
-            binding.parentCard.setOnClickListener {
-                onItemClick(page)
-            }
-        }
-
-        fun bind() {
+        fun bind(page: Page) {
             if (!page.isAd) {
+                binding.parentCard.setOnClickListener {
+                    onItemClick(page)
+                }
                 binding.page = page
                 binding.adView.visibility = View.GONE
                 binding.pageImage.visibility = View.VISIBLE
@@ -46,7 +33,7 @@ class HomePageAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        HomePageViewHolder(
+        PicsumViewHolder(
             PageItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -54,8 +41,17 @@ class HomePageAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: HomePageViewHolder, position: Int) = holder.bind()
+    override fun onBindViewHolder(holder: PicsumViewHolder, position: Int) =
+        holder.bind(getItem(position) ?: Page())
 
-    override fun getItemCount() = pages.size
+    companion object {
+        private val PAGE_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Page>() {
+            override fun areItemsTheSame(oldItem: Page, newItem: Page): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Page, newItem: Page): Boolean =
+                oldItem == newItem
+        }
+    }
 
 }

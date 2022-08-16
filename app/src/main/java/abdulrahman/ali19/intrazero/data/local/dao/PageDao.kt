@@ -1,23 +1,24 @@
 package abdulrahman.ali19.intrazero.data.local.dao
 
 import abdulrahman.ali19.intrazero.domain.model.Page
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.paging.PagingSource
+import androidx.room.*
 
 @Dao
 interface PageDao {
 
-    @Insert
-    fun insertPage(page: Page): Int
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPage(page: Page)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(pages: List<Page>)
 
     @Delete
-    fun deletePage(page: Page): Int
+    suspend fun deletePage(page: Page)
 
     @Query("SELECT * FROM page_table")
-    suspend fun getAllPages(): List<Page>
+    fun getAllPages(): PagingSource<Int, Page>
 
     @Query("DELETE FROM page_table")
-    suspend fun deleteAllPages(): Int
+    suspend fun clearAllPages()
 }

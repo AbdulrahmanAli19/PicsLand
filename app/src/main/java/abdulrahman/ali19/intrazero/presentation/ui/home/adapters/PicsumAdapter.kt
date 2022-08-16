@@ -18,13 +18,12 @@ class PicsumAdapter(
 
         fun bind(page: Page) {
             if (!page.isAd) {
-                binding.parentCard.setOnClickListener {
-                    onItemClick(page)
-                }
+                binding.parentCard.setOnClickListener { onItemClick(page) }
                 binding.page = page
                 binding.adView.visibility = View.GONE
                 binding.pageImage.visibility = View.VISIBLE
             } else {
+                binding.parentCard.setOnClickListener { }
                 binding.adView.visibility = View.VISIBLE
                 binding.pageImage.visibility = View.GONE
             }

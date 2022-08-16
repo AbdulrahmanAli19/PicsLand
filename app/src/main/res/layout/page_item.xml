@@ -30,10 +30,12 @@
 
                 <ImageView
                     android:id="@+id/page_image"
-                    setGlideImage="@{page.imageUrl}"
+                    setCoilImage="@{page.imageUrl}"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:scaleType="centerCrop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/author_name_txt"
@@ -51,12 +53,12 @@
 
                 <com.google.android.gms.ads.AdView
                     android:id="@+id/ad_view"
-                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_margin="10dp"
+                    android:visibility="gone"
                     app:adSize="BANNER"
                     app:adUnitId="ca-app-pub-2329065040858979/8491263061"
                     app:layout_constraintBottom_toBottomOf="parent"

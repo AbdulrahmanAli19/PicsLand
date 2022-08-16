@@ -1,17 +1,18 @@
 package abdulrahman.ali19.intrazero.utils
 
+import abdulrahman.ali19.intrazero.R
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import coil.load
+import coil.size.Scale
 
-@BindingAdapter("setGlideImage")
-fun ImageView.setGlideImage(imageUrl: String?) {
+@BindingAdapter("setCoilImage")
+fun ImageView.setCoilImage(imageUrl: String?) {
     if (imageUrl != null)
-        Glide
-            .with(this)
-            .load(imageUrl)
-            .transition(DrawableTransitionOptions.withCrossFade())
-            .centerCrop()
-            .into(this)
+        load(imageUrl) {
+            placeholder(R.drawable.img_placeholder)
+            error(R.drawable.error)
+            crossfade(1000)
+            scale(Scale.FILL)
+        }
 }

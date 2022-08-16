@@ -1,24 +1,16 @@
 package abdulrahman.ali19.intrazero.presentation.ui.details_screen
 
-import abdulrahman.ali19.intrazero.R
 import abdulrahman.ali19.intrazero.databinding.FragmentDetailsBinding
-import abdulrahman.ali19.intrazero.utils.setGlideImg
+import abdulrahman.ali19.intrazero.utils.setCoilImage
+import abdulrahman.ali19.intrazero.utils.setDominantBackgroundColorWithAnimation
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.palette.graphics.Palette
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
+
 
 class DetailsFragment : Fragment() {
 
@@ -37,17 +29,12 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mainImage.setGlideImg(args.imageUrl,
-            onFailed = {},
-            onSuccess = { resource ->
-                Palette.from(resource!!.toBitmap()).generate {
-                    val dominantColor =
-                        it?.getDominantColor(
-                            ContextCompat.getColor(requireContext(), R.color.white)
-                        )!!
-                    binding.parent.background = ColorDrawable(dominantColor)
-                }
-            })
+        binding.mainImage.setCoilImage(args.imageUrl, onSuccess = { image ->
+            binding.parent.setDominantBackgroundColorWithAnimation(
+                image,
+                colorFrom = (binding.parent.background as ColorDrawable).color
+            )
+        })
 
     }
 

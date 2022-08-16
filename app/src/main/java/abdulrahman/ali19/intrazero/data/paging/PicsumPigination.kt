@@ -24,15 +24,21 @@ class PicsumPigination @Inject constructor(
 
             if (request.isNotEmpty()) {
                 var counter = 0
-                for (i in 0..request.size step 5) {
-                    if (i > 0) {
-                        request.add(i + counter, Page(isAd = true))
+                for (i in 0..request.size) {
+                    if (i > 0 && i % 5 == 0) {
+                        val prevId = request[i].id - 1
+                        request.add(
+                            i + counter,
+                            Page(
+                                id = prevId.plus(.5f),
+                                isAd = true
+                            )
+                        )
                         counter++
                     }
                 }
             }
 
-            //NOTE: ides may have a problem
             return LoadResult.Page(
                 data = request,
                 prevKey = when (start) {

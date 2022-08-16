@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "page_table")
 data class Page(
-    @PrimaryKey val id: Int = 0,
+    @PrimaryKey var id: Float = 0f,
     val author: String = "",
     val pageUrl: String = "",
     val imageUrl: String = "",

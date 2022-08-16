@@ -12,7 +12,7 @@ data class PageDto(
     val width: Int
 ) {
     fun toPage() = Page(
-        id = id.toInt(),
+        id = id.toFloat(),
         imageUrl = imageUrl,
         pageUrl = pageUrl,
         author = author

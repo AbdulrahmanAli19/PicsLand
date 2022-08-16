@@ -46,15 +46,5 @@ object AppModule {
     ): Repository =
         RepositoryImpl(db, mediator, paging)
 
-    @Provides
-    @Singleton
-    fun providePicsumRemoteMediator(
-        api: PagePicsumApi,
-        db: IntrazeroDatabase
-    ): PicsumRemoteMediator = PicsumRemoteMediator(api, db)
-
-    @Provides
-    @Singleton
-    fun providePicsumPaging(api: PagePicsumApi): PicsumPigination = PicsumPigination(api)
 
 }

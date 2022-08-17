@@ -14,8 +14,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -24,11 +26,12 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePagePicsumApi(): PagePicsumApi =
+    fun providePagePicsumApi(httpClient: OkHttpClient): PagePicsumApi =
         Retrofit
             .Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(httpClient)
             .build()
             .create(PagePicsumApi::class.java)
 
@@ -46,5 +49,13 @@ object AppModule {
     ): Repository =
         RepositoryImpl(db, mediator, paging)
 
+
+    @Provides
+    @Singleton
+    fun provideHttpClient(): OkHttpClient =
+        OkHttpClient.Builder()
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .build()
 
 }

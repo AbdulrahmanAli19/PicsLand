@@ -13,10 +13,10 @@ class PicsumAdapter(
 
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % 5 != 0 ){
-            ViewType.PAGE.ordinal
-        }else{
-            ViewType.SEPARATOR.ordinal
+        return when (getItem(position)) {
+            is PageListItem.PageItem -> ViewType.PAGE.ordinal
+            PageListItem.SeparatorItem -> ViewType.SEPARATOR.ordinal
+            null -> throw UnsupportedOperationException("Unexpected View")
         }
     }
 

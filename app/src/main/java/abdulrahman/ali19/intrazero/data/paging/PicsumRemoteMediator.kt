@@ -78,15 +78,15 @@ class PicsumRemoteMediator @Inject constructor(
 
     private suspend fun getRemoteKeyForLastItem(state: PagingState<Int, Page>): RemoteKeys? {
         return state.pages.lastOrNull() { it.data.isNotEmpty() }?.data?.lastOrNull()
-            ?.let { repo ->
-                db.remoteKeysDao().remoteKeysPageId(repo.id.toLong())
+            ?.let { page ->
+                db.remoteKeysDao().remoteKeysPageId(page.id.toLong())
             }
     }
 
     private suspend fun getRemoteKeyForFirstItem(state: PagingState<Int, Page>): RemoteKeys? {
         return state.pages.firstOrNull { it.data.isNotEmpty() }?.data?.firstOrNull()
-            ?.let { repo ->
-                db.remoteKeysDao().remoteKeysPageId(repo.id.toLong())
+            ?.let { page ->
+                db.remoteKeysDao().remoteKeysPageId(page.id.toLong())
             }
     }
 

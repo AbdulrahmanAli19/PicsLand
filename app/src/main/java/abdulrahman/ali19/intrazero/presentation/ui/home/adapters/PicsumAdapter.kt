@@ -1,9 +1,7 @@
 package abdulrahman.ali19.intrazero.presentation.ui.home.adapters
 
-import abdulrahman.ali19.intrazero.databinding.PageItemBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
-import android.view.LayoutInflater
-import android.view.View
+import abdulrahman.ali19.intrazero.domain.model.PageListItem
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -11,46 +9,63 @@ import androidx.recyclerview.widget.RecyclerView
 
 class PicsumAdapter(
     private val onItemClick: (Page) -> (Unit)
-) : PagingDataAdapter<Page, PicsumAdapter.PicsumViewHolder>(PAGE_DIFF_CALLBACK) {
+) : PagingDataAdapter<PageListItem, RecyclerView.ViewHolder>(PAGE_DIFF_CALLBACK) {
 
-    inner class PicsumViewHolder(private val binding: PageItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(page: Page) {
-            if (!page.isAd) {
-                binding.parentCard.setOnClickListener { onItemClick(page) }
-                binding.page = page
-                binding.adView.visibility = View.GONE
-                binding.pageImage.visibility = View.VISIBLE
-            } else {
-                binding.parentCard.setOnClickListener { }
-                binding.adView.visibility = View.VISIBLE
-                binding.pageImage.visibility = View.GONE
+    override fun getItemViewType(position: Int): Int {
+        return if (position % 5 != 0 ){
+            ViewType.PAGE.ordinal
+        }else{
+            ViewType.SEPARATOR.ordinal
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == ViewType.PAGE.ordinal) {
+            PicsumViewHolder.create(parent, onItemClick)
+        } else {
+            AdViewHolder.create(parent)
+        }
+    }
+
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        getItem(position)?.let {
+            when (it) {
+                is PageListItem.PageItem -> (holder as PicsumViewHolder).bind(it.page)
+                PageListItem.SeparatorItem -> Unit
             }
         }
 
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        PicsumViewHolder(
-            PageItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-
-    override fun onBindViewHolder(holder: PicsumViewHolder, position: Int) =
-        holder.bind(getItem(position) ?: Page())
-
     companion object {
-        private val PAGE_DIFF_CALLBACK = object : DiffUtil.ItemCallback<Page>() {
-            override fun areItemsTheSame(oldItem: Page, newItem: Page): Boolean =
-                oldItem.id == newItem.id
 
-            override fun areContentsTheSame(oldItem: Page, newItem: Page): Boolean =
+        private enum class ViewType {
+            PAGE, SEPARATOR
+        }
+
+        private val PAGE_DIFF_CALLBACK = object : DiffUtil.ItemCallback<PageListItem>() {
+            override fun areItemsTheSame(oldItem: PageListItem, newItem: PageListItem): Boolean =
+                compareCat(oldItem, newItem) ||
+                        compareSeparator(oldItem, newItem)
+
+            override fun areContentsTheSame(oldItem: PageListItem, newItem: PageListItem): Boolean =
                 oldItem == newItem
         }
+
+        private fun compareSeparator(
+            oldItem: PageListItem,
+            newItem: PageListItem
+        ) = (oldItem is PageListItem.SeparatorItem && newItem is PageListItem.SeparatorItem &&
+                oldItem == newItem)
+
+        private fun compareCat(
+            oldItem: PageListItem,
+            newItem: PageListItem
+        ) = (oldItem is PageListItem.PageItem && newItem is PageListItem.PageItem &&
+                oldItem.page.id == newItem.page.id)
+
     }
 
 }

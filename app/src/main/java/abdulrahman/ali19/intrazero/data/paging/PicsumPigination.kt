@@ -22,7 +22,7 @@ class PicsumPigination @Inject constructor(
                 pageNo = params.key.toString()
             ).map { it.toPage() } as ArrayList
 
-            if (request.isNotEmpty()) {
+            /*if (request.isNotEmpty()) {
                 var counter = 0
                 for (i in 0..request.size) {
                     if (i > 0 && i % 5 == 0) {
@@ -37,7 +37,7 @@ class PicsumPigination @Inject constructor(
                         counter++
                     }
                 }
-            }
+            }*/
 
             return LoadResult.Page(
                 data = request,

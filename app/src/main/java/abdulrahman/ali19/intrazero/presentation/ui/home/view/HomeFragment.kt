@@ -8,17 +8,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-private const val TAG = "HomeFragment"
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -42,32 +45,53 @@ class HomeFragment : Fragment() {
     @SuppressLint("UnsafeRepeatOnLifecycleDetector")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         _pagesAdapter = PicsumAdapter(onItemClick())
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = pageAdapter
+        }
+
+        pageAdapter.addLoadStateListener { state ->
+            val refresh = state.source.refresh
+            binding.recyclerView.isVisible = refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = refresh is LoadState.Loading
+            binding.retryBtn.isVisible = refresh is LoadState.Error
+            handleError(state)
+        }
+
+        binding.retryBtn.setOnClickListener {
+            pageAdapter.retry()
+        }
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect {
-                    binding.progressBar.visibility = View.GONE
-                    binding.recyclerView.apply {
-                        layoutManager = LinearLayoutManager(requireContext())
-                        adapter = pageAdapter
-                        visibility = View.VISIBLE
-                    }
-                    pageAdapter.submitData(it)
-                }
+                viewModel.state.collect { pageAdapter.submitData(it) }
             }
         }
+    }
 
+    private fun handleError(state: CombinedLoadStates) {
+        val errorState = state.source.append as? LoadState.Error
+            ?: state.source.prepend as? LoadState.Error
+
+        errorState?.let {
+            Snackbar.make(
+                requireView(),
+                "${it.error}",
+                Snackbar.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun onItemClick(): (Page) -> (Unit) = {
-        if (!it.isAd)
-            findNavController().navigate(
-                HomeFragmentDirections.actionNavigationHomeToDetailsFragment(
-                    authorName = it.author,
-                    imageUrl = it.imageUrl
-                )
+        findNavController().navigate(
+            HomeFragmentDirections.actionNavigationHomeToDetailsFragment(
+                authorName = it.author,
+                imageUrl = it.imageUrl
             )
+        )
     }
 
     override fun onDestroyView() {

@@ -38,7 +38,11 @@ object AppModule {
     @Provides
     @Singleton
     fun provideInrazeroDatabase(@ApplicationContext context: Context): IntrazeroDatabase =
-        IntrazeroDatabase.init(context)
+        Room.databaseBuilder(
+            context.applicationContext,
+            IntrazeroDatabase::class.java,
+            Constants.DATABASE_NAME
+        ).build()
 
     @Provides
     @Singleton

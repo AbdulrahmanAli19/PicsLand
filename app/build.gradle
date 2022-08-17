@@ -94,4 +94,8 @@ dependencies {
     //Palette
     implementation 'androidx.palette:palette:1.0.0'
 
+    //lottie
+    implementation "com.airbnb.android:lottie:5.2.0"
+
+
 }

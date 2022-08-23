@@ -2,6 +2,7 @@ package abdulrahman.ali19.intrazero.presentation.ui.home.view
 
 import abdulrahman.ali19.intrazero.databinding.FragmentHomeBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
+import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PageLoadStateAdapter
 import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PicsumAdapter
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -11,14 +12,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -50,25 +48,25 @@ class HomeFragment : Fragment() {
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = pageAdapter
+            adapter = pageAdapter.withLoadStateFooter(
+                footer = PageLoadStateAdapter { pageAdapter.retry() }
+            )
         }
 
         pageAdapter.addLoadStateListener { state ->
             val refresh = state.source.refresh
             binding.recyclerView.isVisible = refresh is LoadState.NotLoading
             binding.progressBar.isVisible = refresh is LoadState.Loading
-            binding.retryBtn.isVisible = refresh is LoadState.Error
+            binding.errorLayout.root.isVisible = refresh is LoadState.Error
             handleError(state)
         }
 
-        binding.retryBtn.setOnClickListener {
+        binding.errorLayout.retryBtn.setOnClickListener {
             pageAdapter.retry()
         }
 
         lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.state.collect { pageAdapter.submitData(it) }
-            }
+            viewModel.state.collect { pageAdapter.submitData(it) }
         }
     }
 
@@ -76,13 +74,9 @@ class HomeFragment : Fragment() {
         val errorState = state.source.append as? LoadState.Error
             ?: state.source.prepend as? LoadState.Error
 
-        errorState?.let {
-            Snackbar.make(
-                requireView(),
-                "${it.error}",
-                Snackbar.LENGTH_LONG
-            ).show()
-        }
+        binding.errorLayout.errorMsg.text =
+            errorState?.error?.localizedMessage ?: "Are you connected?"
+
     }
 
     private fun onItemClick(): (Page) -> (Unit) = {

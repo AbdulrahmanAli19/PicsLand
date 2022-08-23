@@ -16,7 +16,7 @@ import coil.size.Scale
 fun ImageView.setCoilImage(imageUrl: String?, onSuccess: (Drawable) -> (Unit) = {}) {
     if (imageUrl != null) {
         load(imageUrl) {
-            crossfade(1000)
+            crossfade(750)
             placeholder(R.drawable.img_placeholder)
             error(R.drawable.error)
             scale(Scale.FILL)
@@ -28,7 +28,7 @@ fun ImageView.setCoilImage(imageUrl: String?, onSuccess: (Drawable) -> (Unit) = 
 
 fun View.setDominantBackgroundColorWithAnimation(
     image: Drawable,
-    duration: Long = 1000,
+    duration: Long = 750,
     colorFrom: Int = Color.WHITE
 ) {
     Palette.from(image.toBitmap()).generate { palette ->

@@ -18,12 +18,14 @@ class GetPagesUseCase @Inject constructor(
     operator fun invoke(): Flow<PagingData<PageListItem>> = flow {
         emitAll(repo.getPagesWithPageAndLimit()
             .map { pagingData ->
-                pagingData.map { PageListItem.PageItem(it) } }
+                var index = 0
+                pagingData.map { PageListItem.PageItem(it, ++index) }
+            }
             .map { pageListItem ->
-                pageListItem.insertSeparators { after, before ->
+                pageListItem.insertSeparators { after, _ ->
                     if (after == null)
                         return@insertSeparators null
-                    if (after.page.id.toInt() % 5 == 0)
+                    if (after.index % 5 == 0 && after.index > 0)
                         return@insertSeparators PageListItem.SeparatorItem
                     else
                         null

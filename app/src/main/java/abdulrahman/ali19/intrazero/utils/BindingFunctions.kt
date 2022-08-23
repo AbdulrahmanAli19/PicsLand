@@ -12,7 +12,7 @@ fun ImageView.setCoilImage(imageUrl: String?) {
         load(imageUrl) {
             placeholder(R.drawable.img_placeholder)
             error(R.drawable.error)
-            crossfade(1000)
+            crossfade(750)
             scale(Scale.FILL)
         }
 }

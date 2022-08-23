@@ -1,7 +1,7 @@
 package abdulrahman.ali19.intrazero.data.repository
 
 import abdulrahman.ali19.intrazero.data.local.IntrazeroDatabase
-import abdulrahman.ali19.intrazero.data.paging.PicsumPigination
+import abdulrahman.ali19.intrazero.data.paging.PicsPagination
 import abdulrahman.ali19.intrazero.data.paging.PicsumRemoteMediator
 import abdulrahman.ali19.intrazero.domain.model.Page
 import abdulrahman.ali19.intrazero.domain.repository.Repository
@@ -18,7 +18,7 @@ private const val NETWORK_PAGE_SIZE = 30
 class RepositoryImpl @Inject constructor(
     private val db: IntrazeroDatabase,
     private val picsumRemoteMediator: PicsumRemoteMediator,
-    private val picsumPigination: PicsumPigination
+    private val picsumPigination: PicsPagination
 ) : Repository {
 
     override fun getPagesWithPageAndLimit(): Flow<PagingData<Page>> {

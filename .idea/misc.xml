@@ -6,9 +6,12 @@
         <entry key="../../.gradle/caches/transforms-3/f2459f9ca474f04b4db4a516e0f4405e/transformed/appcompat-1.2.0/res/layout/abc_action_bar_title_item.xml" value="0.2" />
         <entry key="../../.gradle/caches/transforms-3/f2459f9ca474f04b4db4a516e0f4405e/transformed/appcompat-1.2.0/res/layout/abc_screen_simple.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.20296570898980537" />
+        <entry key="app/src/main/res/layout/ad_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/error_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_details.xml" value="0.22604166666666667" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21197916666666666" />
-        <entry key="app/src/main/res/layout/page_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_load_state.xml" value="0.24114583333333334" />
+        <entry key="app/src/main/res/layout/page_item.xml" value="0.1" />
       </map>
     </option>
   </component>

@@ -1,7 +1,7 @@
 package abdulrahman.ali19.intrazero.di
 
 import abdulrahman.ali19.intrazero.data.local.IntrazeroDatabase
-import abdulrahman.ali19.intrazero.data.paging.PicsumPigination
+import abdulrahman.ali19.intrazero.data.paging.PicsPagination
 import abdulrahman.ali19.intrazero.data.paging.PicsumRemoteMediator
 import abdulrahman.ali19.intrazero.data.remote.PagePicsumApi
 import abdulrahman.ali19.intrazero.data.repository.RepositoryImpl
@@ -49,7 +49,7 @@ object AppModule {
     fun provideRepository(
         db: IntrazeroDatabase,
         mediator: PicsumRemoteMediator,
-        paging: PicsumPigination
+        paging: PicsPagination
     ): Repository =
         RepositoryImpl(db, mediator, paging)
 

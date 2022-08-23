@@ -44,8 +44,6 @@ fun View.setDominantBackgroundColorWithAnimation(
             ArgbEvaluator(),
             colorFrom,
             colorTo
-        )
-            .setDuration(duration)
-            .start()
+        ).setDuration(duration).start()
     }
 }

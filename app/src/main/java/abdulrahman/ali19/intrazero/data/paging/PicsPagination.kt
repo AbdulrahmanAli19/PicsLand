@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 private const val STARTING_KEY = 1
 
-class PicsumPigination @Inject constructor(
+class PicsPagination @Inject constructor(
     private val api: PagePicsumApi
 ) : PagingSource<Int, Page>() {
 
@@ -19,32 +19,12 @@ class PicsumPigination @Inject constructor(
 
         try {
             val request = api.getPagesWithPageAndLimit(
-                pageNo = params.key.toString()
-            ).map { it.toPage() } as ArrayList
-
-            /*if (request.isNotEmpty()) {
-                var counter = 0
-                for (i in 0..request.size) {
-                    if (i > 0 && i % 5 == 0) {
-                        val prevId = request[i].id - 1
-                        request.add(
-                            i + counter,
-                            Page(
-                                id = prevId.plus(.5f),
-                                isAd = true
-                            )
-                        )
-                        counter++
-                    }
-                }
-            }*/
-
+                pageNo = params.key.toString(),
+                limit = params.loadSize.toString()
+            ).map { it.toPage() }
             return LoadResult.Page(
                 data = request,
-                prevKey = when (start) {
-                    STARTING_KEY -> null
-                    else -> start - 1
-                },
+                prevKey = if (start == STARTING_KEY) null else start + 1,
                 nextKey = if (request.isEmpty()) null else start + 1
             )
 

@@ -11,9 +11,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.load
+import coil.request.ErrorResult
+import coil.request.ImageRequest
 import coil.size.Scale
 
-fun ImageView.setCoilImage(imageUrl: String?, onSuccess: (Drawable) -> (Unit) = {}) {
+fun ImageView.setCoilImage(
+    imageUrl: String?,
+    onSuccess: (Drawable) -> (Unit) = {},
+    onStart: () -> (Unit) = {},
+    onError: (ImageRequest, ErrorResult) -> (Unit) = { _, _ -> }
+) {
     if (imageUrl != null) {
         load(imageUrl) {
             crossfade(750)
@@ -21,7 +28,10 @@ fun ImageView.setCoilImage(imageUrl: String?, onSuccess: (Drawable) -> (Unit) = 
             error(R.drawable.error)
             scale(Scale.FILL)
             allowHardware(false)
-            listener(onSuccess = { _, result -> onSuccess(result.drawable) })
+            listener(
+                onSuccess = { _, result -> onSuccess(result.drawable) },
+                onStart = { onStart() },
+                onError = { imageResult, errorResult -> onError(imageResult, errorResult) })
         }
     }
 }

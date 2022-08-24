@@ -7,6 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
+    android:visibility="gone"
     app:cardCornerRadius="14dp"
     app:cardElevation="3dp">
 
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        android:visibility="gone"
         app:adSize="BANNER"
         app:adUnitId="ca-app-pub-2329065040858979/4866593260" />
 </androidx.cardview.widget.CardView>

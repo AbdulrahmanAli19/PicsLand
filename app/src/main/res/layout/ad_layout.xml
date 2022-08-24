@@ -17,5 +17,5 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         app:adSize="BANNER"
-        app:adUnitId="ca-app-pub-2329065040858979/8491263061" />
+        app:adUnitId="ca-app-pub-2329065040858979/4866593260" />
 </androidx.cardview.widget.CardView>

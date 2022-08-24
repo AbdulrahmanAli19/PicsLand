@@ -1,4 +1,4 @@
-package abdulrahman.ali19.intrazero.presentation.ui.home.view
+package abdulrahman.ali19.intrazero.presentation.ui.home.viewmodel
 
 import abdulrahman.ali19.intrazero.domain.model.PageListItem
 import abdulrahman.ali19.intrazero.domain.repository.Repository
@@ -15,7 +15,12 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     pagesUseCase: GetPagesUseCase
 ) : ViewModel() {
-    val state: Flow<PagingData<PageListItem>> = pagesUseCase.invoke().cachedIn(viewModelScope)
+
+    val state: Flow<PagingData<PageListItem>>
+
+    init {
+        state = pagesUseCase.invoke().cachedIn(viewModelScope)
+    }
 
 }
 

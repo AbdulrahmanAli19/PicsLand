@@ -1,4 +1,4 @@
-package abdulrahman.ali19.intrazero.presentation.ui.home.adapters
+package abdulrahman.ali19.intrazero.presentation.ui.home.adapters.load_state
 
 import android.view.ViewGroup
 import androidx.paging.LoadState

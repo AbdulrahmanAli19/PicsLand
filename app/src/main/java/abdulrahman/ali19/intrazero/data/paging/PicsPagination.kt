@@ -19,8 +19,7 @@ class PicsPagination @Inject constructor(
 
         try {
             val request = api.getPagesWithPageAndLimit(
-                pageNo = params.key.toString(),
-                limit = params.loadSize.toString()
+                pageNo = params.key.toString()
             ).map { it.toPage() }
             return LoadResult.Page(
                 data = request,

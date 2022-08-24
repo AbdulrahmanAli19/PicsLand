@@ -2,8 +2,9 @@ package abdulrahman.ali19.intrazero.presentation.ui.home.view
 
 import abdulrahman.ali19.intrazero.databinding.FragmentHomeBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
-import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PageLoadStateAdapter
 import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PicsumAdapter
+import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.load_state.PageLoadStateAdapter
+import abdulrahman.ali19.intrazero.presentation.ui.home.viewmodel.HomeViewModel
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +20,6 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {

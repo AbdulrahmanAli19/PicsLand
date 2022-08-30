@@ -2,6 +2,7 @@ package abdulrahman.ali19.intrazero.data.paging
 
 import abdulrahman.ali19.intrazero.data.remote.PagePicsumApi
 import abdulrahman.ali19.intrazero.domain.model.Page
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import retrofit2.HttpException
@@ -9,6 +10,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 private const val STARTING_KEY = 1
+private const val TAG = "PicsPagination"
 
 class PicsPagination @Inject constructor(
     private val api: PagePicsumApi
@@ -17,22 +19,22 @@ class PicsPagination @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Page> {
         val start = params.key ?: STARTING_KEY
 
-        try {
+        return try {
             val request = api.getPagesWithPageAndLimit(
-                pageNo = params.key.toString()
+                pageNo = params.key.toString(),
+                limit = params.loadSize.toString()
             ).map { it.toPage() }
-            return LoadResult.Page(
+            Log.d(TAG, "load: ${params.key} ${request.size}")
+            LoadResult.Page(
                 data = request,
-                prevKey = if (start == STARTING_KEY) null else start + 1,
-                nextKey = if (request.isEmpty()) null else start + 1
+                prevKey = if (start == STARTING_KEY) null else start.minus(1),
+                nextKey = if (request.isEmpty()) null else start.plus(1)
             )
-
         } catch (ex: HttpException) {
-            return LoadResult.Error(ex)
+            LoadResult.Error(ex)
         } catch (ex: IOException) {
-            return LoadResult.Error(ex)
+            LoadResult.Error(ex)
         }
-
     }
 
 

@@ -23,7 +23,10 @@ class RepositoryImpl @Inject constructor(
 
     override fun getPagesWithPageAndLimit(): Flow<PagingData<Page>> {
         return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
             pagingSourceFactory = { picsumPigination }
         ).flow
     }
@@ -31,7 +34,10 @@ class RepositoryImpl @Inject constructor(
     override fun getPagesFromMediator(): Flow<PagingData<Page>> {
         val pagingSourceFactory = { db.pageDao().getAllPages() }
         return Pager(
-            config = PagingConfig(pageSize = NETWORK_PAGE_SIZE, enablePlaceholders = false),
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+            ),
             remoteMediator = picsumRemoteMediator,
             pagingSourceFactory = pagingSourceFactory
         ).flow

@@ -2,8 +2,9 @@ package abdulrahman.ali19.intrazero.presentation.ui.home.view
 
 import abdulrahman.ali19.intrazero.databinding.FragmentHomeBinding
 import abdulrahman.ali19.intrazero.domain.model.Page
-import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PageLoadStateAdapter
 import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.PicsumAdapter
+import abdulrahman.ali19.intrazero.presentation.ui.home.adapters.load_state.PageLoadStateAdapter
+import abdulrahman.ali19.intrazero.presentation.ui.home.viewmodel.HomeViewModel
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +13,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
@@ -66,7 +68,9 @@ class HomeFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewModel.state.collect { pageAdapter.submitData(it) }
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collect { pageAdapter.submitData(it) }
+            }
         }
     }
 

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 
@@ -29,13 +30,18 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.mainImage.setCoilImage(args.imageUrl, onSuccess = { image ->
-            binding.parent.setDominantBackgroundColorWithAnimation(
-                image,
-                colorFrom = (binding.parent.background as ColorDrawable).color
-            )
-        })
-
+        binding.mainImage.setCoilImage(
+            args.imageUrl,
+            onStart = { binding.progressBar.isVisible = true },
+            onSuccess = { image ->
+                binding.progressBar.isVisible = false
+                binding.parent.setDominantBackgroundColorWithAnimation(
+                    image,
+                    colorFrom = (binding.parent.background as ColorDrawable).color
+                )
+            },
+            onError = { _, _ -> binding.progressBar.isVisible = true }
+        )
     }
 
     override fun onDestroyView() {

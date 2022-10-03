@@ -16,7 +16,7 @@ class AdViewHolder(binding: AdLayoutBinding) : RecyclerView.ViewHolder(binding.r
                 LayoutInflater.from(view.context), view, false
             )
             binding.adView.loadAd(AdRequest.Builder().build())
-            binding.adView.adListener = object: AdListener(){
+            binding.adView.adListener = object : AdListener() {
                 override fun onAdLoaded() {
                     binding.root.isVisible = true
                     binding.adView.isVisible = true

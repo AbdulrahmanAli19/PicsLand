@@ -4,6 +4,7 @@ A mobile app that display list of photos queried from a public API, and an ad pl
 
 # Demo
 
+https://user-images.githubusercontent.com/60023467/194308058-4d55a2d8-a286-4980-a06f-dc951dd7c96a.mp4
 
 # Tools
 
